@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>DUO Trends — Radar de Tendências Gastronômicas</title>
+<style>
+  :root {
+    --bg: #f7f3ec;
+    --card: #ffffff;
+    --ink: #2b2420;
+    --ink-soft: #6b5f54;
+    --line: #e6ddd0;
+    --accent: #7a2e2e;
+    --accent-soft: #f1e2df;
+    --high: #7a2e2e;
+    --high-bg: #f6e6e4;
+    --mid: #8a6d1f;
+    --mid-bg: #f6efdb;
+    --watch: #55605a;
+    --watch-bg: #e9edea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+  header.top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+  }
+  header.top h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    margin: 0;
+    letter-spacing: 0.3px;
+  }
+  header.top .sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .edition-date {
+    font-size: 14px;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 6px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .legend {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+    font-size: 12.5px;
+  }
+  .legend span {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .badge-alta { background: var(--high-bg); color: var(--high); }
+  .badge-media { background: var(--mid-bg); color: var(--mid); }
+  .badge-monitorar { background: var(--watch-bg); color: var(--watch); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+    margin-bottom: 40px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+  .tag.cat { background: var(--accent-soft); color: var(--accent); }
+  .card h3 {
+    margin: 0;
+    font-size: 17px;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  .card p { margin: 0; font-size: 14px; color: var(--ink); }
+  .why {
+    background: #fbf8f2;
+    border-left: 3px solid var(--accent);
+    padding: 10px 12px;
+    font-size: 13.5px;
+    border-radius: 4px;
+    color: #4a3f37;
+  }
+  .why b { color: var(--accent); }
+  .card a.src {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-top: 1px dashed var(--line);
+    padding-top: 8px;
+    margin-top: auto;
+  }
+  .card a.src:hover { color: var(--accent); text-decoration: underline; }
+
+  details.archive {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 4px 20px;
+  }
+  details.archive summary {
+    cursor: pointer;
+    font-weight: 700;
+    padding: 14px 0;
+    font-size: 14.5px;
+  }
+  .archive-entry {
+    border-top: 1px solid var(--line);
+    padding: 14px 0;
+  }
+  .archive-entry h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .archive-entry ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+  .archive-entry li { margin-bottom: 4px; }
+  footer.note {
+    margin-top: 30px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>DUO Trends</h1>
+      <div class="sub">Radar diário de tendências gastronômicas mundiais para o DUO Bistro</div>
+    </div>
+    <div class="edition-date" id="edition-date-label"></div>
+  </header>
+
+  <div class="legend">
+    <span class="badge-alta">Alta prioridade — vale testar</span>
+    <span class="badge-media">Média — acompanhar</span>
+    <span class="badge-monitorar">Monitorar — ainda cedo</span>
+  </div>
+
+  <div class="grid" id="latest-grid"></div>
+
+  <details class="archive" id="archive-block">
+    <summary>Edições anteriores</summary>
+    <div id="archive-list"></div>
+  </details>
+
+  <footer class="note">Gerado automaticamente todo dia às 13h (horário de Brasília) a partir de fontes de alta gastronomia, redes sociais, imprensa especializada e fornecedores. Use como radar, não como regra — a curadoria final é sempre do DUO.</footer>
+</div>
+
+<script type="application/json" id="edition-history">
+[
+  {
+    "date": "2026-07-22",
+    "trends": [
+      {
+        "title": "Cozinha a fogo vivo (brasa, lenha, binchotan)",
+        "category": "Alta gastronomia",
+        "priority": "alta",
+        "summary": "Chefs ao redor do mundo — da Suécia a Buenos Aires — estão fazendo da brasa, lenha e binchotan uma técnica central do prato, não só um toque de finalização.",
+        "why_duo": "Encaixa direto com o perfil de carnes nobres do DUO — dá para pensar numa 'estação de brasas' para peças como o wellington ou até o carabineiro grelhado na casca.",
+        "source_title": "MICHELIN Guide — 7 Big Food Trends of 2026",
+        "source_url": "https://guide.michelin.com/en/article/travel/top-food-trends-2026-michelin-guide-inspectors"
+      },
+      {
+        "title": "Nostalgia do bistrô francês",
+        "category": "Alta gastronomia",
+        "priority": "alta",
+        "summary": "Clássicos como blanquette, oeufs mayonnaise e île flottante voltam com força ao redor do mundo, de Hong Kong a Kuala Lumpur — o 'simples bem feito' como estatuto.",
+        "why_duo": "É literalmente o território onde o DUO já brilha (pavlova, torta escocesa). Dá para formalizar uma seção 'Clássicos Revisitados' no cardápio.",
+        "source_title": "MICHELIN Guide — 7 Big Food Trends of 2026",
+        "source_url": "https://guide.michelin.com/en/article/travel/top-food-trends-2026-michelin-guide-inspectors"
+      },
+      {
+        "title": "Menus enxutos e sazonais",
+        "category": "Imprensa especializada",
+        "priority": "alta",
+        "summary": "Restaurantes estão cortando o cardápio para poucos pratos excelentes, trocados por sazonalidade real — reação ao cardápio quilométrico.",
+        "why_duo": "Vale revisar o menu do DUO: menos itens, mais rotatividade sazonal, reforçando a curadoria que os pratos-âncora já constroem.",
+        "source_title": "James Beard Foundation — Top Restaurant Food Trends 2026",
+        "source_url": "https://www.jamesbeard.org/stories/top-restaurant-food-trends-2026"
+      },
+      {
+        "title": "Tasting menu 'luxo acessível'",
+        "category": "Imprensa especializada",
+        "priority": "media",
+        "summary": "Menus degustação voltando a ser satisfatórios e com preço justo — reação a experiências pequenas demais para o valor cobrado.",
+        "why_duo": "Pode virar um 'menu DUO' de 4–5 tempos ancorado nos clássicos que já fazem sucesso (carabineiro, wellington, pavlova).",
+        "source_title": "James Beard Foundation — Top Restaurant Food Trends 2026",
+        "source_url": "https://www.jamesbeard.org/stories/top-restaurant-food-trends-2026"
+      },
+      {
+        "title": "Fermentação como investimento de tempo",
+        "category": "Alta gastronomia",
+        "priority": "media",
+        "summary": "Koji, lacto-fermentação e maturação de peixe substituem gordura/açúcar como fonte de profundidade de sabor — inclusive em sobremesas.",
+        "why_duo": "Pode virar diferencial técnico de casa: uma manteiga fermentada própria, ou um garum de carne para os molhos.",
+        "source_title": "MICHELIN Guide — 7 Big Food Trends of 2026",
+        "source_url": "https://guide.michelin.com/en/article/travel/top-food-trends-2026-michelin-guide-inspectors"
+      },
+      {
+        "title": "Amargor e umami em evidência",
+        "category": "Alta gastronomia",
+        "priority": "media",
+        "summary": "Radicchio, endívia, algas e até chá como ingrediente de cozinha ganham espaço para dar profundidade sem peso.",
+        "why_duo": "Contraponto elegante aos pratos mais ricos (wellington, tortas amanteigadas) — pode puxar uma entrada ou guarnição mais leve.",
+        "source_title": "MICHELIN Guide — 7 Big Food Trends of 2026",
+        "source_url": "https://guide.michelin.com/en/article/travel/top-food-trends-2026-michelin-guide-inspectors"
+      },
+      {
+        "title": "Doce-salgado (miso, tahine, mole na sobremesa)",
+        "category": "Imprensa / Fornecedores",
+        "priority": "media",
+        "summary": "Miso, tahine e mole aparecendo em sobremesas e até em bebidas — o cruzamento doce-salgado virando assinatura de casa.",
+        "why_duo": "Boa aposta para evoluir a pavlova ou criar uma sobremesa nova com toque salgado sutil (ex: caramelo com miso).",
+        "source_title": "Restaurant Business — What's Coming Onto Menus in 2026",
+        "source_url": "https://www.restaurantbusinessonline.com/food/whats-coming-menus-2026"
+      },
+      {
+        "title": "Coquetelaria sem álcool sofisticada",
+        "category": "Fornecedores / Bar",
+        "priority": "media",
+        "summary": "Drinks não alcoólicos elaborados com genciana, algas, miso e fermentados, tratados com o mesmo rigor técnico dos coquetéis clássicos.",
+        "why_duo": "Fortalece a carta de bebidas para quem não bebe álcool sem cair no clichê do suco de frutas — bom para casais e grupos mistos.",
+        "source_title": "Restaurant Business — What's Coming Onto Menus in 2026",
+        "source_url": "https://www.restaurantbusinessonline.com/food/whats-coming-menus-2026"
+      },
+      {
+        "title": "Queijo cottage e iogurte proteico bombando nas redes",
+        "category": "Redes sociais",
+        "priority": "monitorar",
+        "summary": "TikTok segue empurrando queijo cottage e iogurte grego como base de sobremesas e salgados — tendência de consumo de massa, não de alta gastronomia.",
+        "why_duo": "Não é para copiar direto, mas mostra apetite do público por 'proteico e cremoso' — pode inspirar uma entrada leve ou pré-sobremesa.",
+        "source_title": "Canadian Grocer — Viral TikTok Food Trends of 2026",
+        "source_url": "https://canadiangrocer.com/most-viral-tiktok-food-trends-2026-so-far"
+      },
+      {
+        "title": "Conchas e rolinhos de canela como próxima pastelaria",
+        "category": "Redes sociais / Fornecedores",
+        "priority": "monitorar",
+        "summary": "Pastelaria com canela (conchas mexicanas, cinnamon rolls recheados) ganhando força nas redes como 'próximo grande hit' de padaria.",
+        "why_duo": "Se o DUO tiver brunch ou petit-fours, é um item barato para testar a reação do público antes de subir para o cardápio principal.",
+        "source_title": "Restaurant Business — What's Coming Onto Menus in 2026",
+        "source_url": "https://www.restaurantbusinessonline.com/food/whats-coming-menus-2026"
+      }
+    ]
+  }
+]
+</script>
+
+<script>
+(function() {
+  var history = JSON.parse(document.getElementById('edition-history').textContent);
+  var priorityLabel = { alta: 'Alta prioridade', media: 'Média', monitorar: 'Monitorar' };
+
+  function fmtDate(iso) {
+    var parts = iso.split('-');
+    var months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+    return parts[2] + ' de ' + months[parseInt(parts[1],10)-1] + ' de ' + parts[0];
+  }
+
+  function cardHTML(t) {
+    return '<div class="card">' +
+      '<div class="tags"><span class="tag cat">' + t.category + '</span>' +
+      '<span class="tag badge-' + t.priority + '">' + priorityLabel[t.priority] + '</span></div>' +
+      '<h3>' + t.title + '</h3>' +
+      '<p>' + t.summary + '</p>' +
+      '<div class="why"><b>Por que olhar para o DUO:</b> ' + t.why_duo + '</div>' +
+      '<a class="src" href="' + t.source_url + '" target="_blank" rel="noopener">Fonte: ' + t.source_title + '</a>' +
+      '</div>';
+  }
+
+  if (history.length) {
+    var latest = history[0];
+    document.getElementById('edition-date-label').textContent = fmtDate(latest.date);
+    document.getElementById('latest-grid').innerHTML = latest.trends.map(cardHTML).join('');
+  }
+
+  var archiveList = document.getElementById('archive-list');
+  if (history.length <= 1) {
+    archiveList.innerHTML = '<div class="archive-entry"><h4>Primeira edição — ainda não há histórico anterior.</h4></div>';
+  } else {
+    var older = history.slice(1);
+    archiveList.innerHTML = older.map(function(ed) {
+      return '<div class="archive-entry"><h4>' + fmtDate(ed.date) + '</h4><ul>' +
+        ed.trends.map(function(t){ return '<li><b>' + t.title + '</b> — ' + t.summary + '</li>'; }).join('') +
+        '</ul></div>';
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>
